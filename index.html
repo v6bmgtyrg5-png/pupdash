@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PupDash — Dog Walking in Pasadena, CA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow: #F5C842;
+      --green: #1A3D2B;
+      --coral: #E85D3A;
+      --cream: #FDF8F0;
+      --charcoal: #1C1C1C;
+      --light-green: #D4E8DA;
+      --mid-green: #2E6B45;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: var(--green);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.6rem;
+      color: var(--yellow);
+      text-decoration: none;
+    }
+
+    .nav-logo .paw {
+      font-size: 1.4rem;
+      animation: waggle 2s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes waggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(15deg); }
+      75% { transform: rotate(-10deg); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--yellow); }
+
+    .nav-cta {
+      background: var(--coral);
+      color: white !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      transition: transform 0.15s, background 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: #c94a2a !important;
+      transform: scale(1.04);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: var(--green);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0; right: 0;
+      height: 80px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    /* Animated background paws */
+    .bg-paws {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-paw {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.07;
+      animation: floatPaw linear infinite;
+      color: var(--yellow);
+    }
+
+    @keyframes floatPaw {
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.07; }
+      90% { opacity: 0.07; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    .hero-text { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 span { color: var(--yellow); }
+
+    .hero-sub {
+      color: var(--light-green);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--coral);
+      color: white;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 16px rgba(232,93,58,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(232,93,58,0.5);
+    }
+
+    .btn-ghost {
+      color: var(--cream);
+      border: 2px solid rgba(253,248,240,0.3);
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    /* Leash + dog illustration */
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dog-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      backdrop-filter: blur(4px);
+      position: relative;
+    }
+
+    .dog-emoji {
+      font-size: 6rem;
+      display: block;
+      animation: bounce 1.8s ease-in-out infinite;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    .leash {
+      width: 4px;
+      height: 70px;
+      background: var(--yellow);
+      border-radius: 4px;
+      margin: 0 auto 0.5rem;
+      transform-origin: top center;
+      animation: leashWag 1.8s ease-in-out infinite;
+    }
+
+    @keyframes leashWag {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(8deg); }
+      75% { transform: rotate(-6deg); }
+    }
+
+    .leash-hand {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .dog-card-label {
+      color: var(--yellow);
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+    }
+
+    .dog-card-sub {
+      color: var(--light-green);
+      font-size: 0.85rem;
+      margin-top: 0.3rem;
+    }
+
+    /* Stats strip */
+    .stats {
+      background: var(--yellow);
+      padding: 1.8rem 4rem;
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem;
+      color: var(--green);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--mid-green);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* SERVICES */
+    .section {
+      padding: 6rem 4rem;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 0.8rem;
+    }
+
+    h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--green);
+      margin-bottom: 1rem;
+      line-height: 1.15;
+    }
+
+    .section-intro {
+      color: #555;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .service-card:hover {
+      border-color: var(--yellow);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(26,61,43,0.1);
+    }
+
+    .service-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .service-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.25rem;
+      color: var(--green);
+      margin-bottom: 0.4rem;
+    }
+
+    .service-price {
+      color: var(--coral);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .service-desc {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* HOW IT WORKS */
+    .how-section {
+      background: var(--green);
+      padding: 6rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .how-section .section-label { color: var(--yellow); }
+    .how-section h2 { color: var(--cream); }
+    .how-section .section-intro { color: var(--light-green); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      position: relative;
+    }
+
+    .step {
+      position: relative;
+      text-align: center;
+    }
+
+    .step-circle {
+      width: 72px;
+      height: 72px;
+      background: var(--yellow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1.2rem;
+    }
+
+    .step-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.15rem;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      color: var(--light-green);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* REVIEWS */
+    .reviews-section {
+      background: var(--cream);
+      padding: 6rem 4rem;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .review-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .stars {
+      color: var(--yellow);
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.8rem;
+    }
+
+    .review-text {
+      color: #444;
+      font-size: 0.93rem;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .reviewer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--light-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .reviewer-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--green);
+    }
+
+    .reviewer-dog {
+      font-size: 0.78rem;
+      color: #888;
+    }
+
+    /* AREA */
+    .area-section {
+      background: var(--light-green);
+      padding: 6rem 4rem;
+    }
+
+    .neighborhoods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .neighborhood-tag {
+      background: white;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.5rem 1.1rem;
+      border-radius: 50px;
+      border: 2px solid var(--green);
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      background: var(--coral);
+      padding: 5rem 4rem;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      color: white;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      margin-bottom: 0.8rem;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--coral);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--charcoal);
+      color: #aaa;
+      padding: 3rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer-logo {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.6rem;
+      color: var(--yellow);
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #888;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-col ul li a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--yellow); }
+
+    .footer-contact p {
+      font-size: 0.88rem;
+      margin-bottom: 0.4rem;
+      color: #888;
+    }
+
+    .footer-bottom {
+      background: var(--charcoal);
+      text-align: center;
+      padding: 1rem 4rem 1.5rem;
+      color: #555;
+      font-size: 0.78rem;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 6rem 1.5rem 3rem;
+        text-align: center;
+      }
+
+      .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; }
+
+      .hero-buttons { justify-content: center; }
+      .hero-visual { display: none; }
+
+      .stats { padding: 1.5rem 1rem; gap: 2rem; }
+
+      .section, .how-section, .reviews-section, .area-section, .cta-section { padding: 4rem 1.5rem; }
+
+      footer {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+      }
+
+      .footer-bottom { padding: 1rem 1.5rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <span class="paw">🐾</span> PupDash
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#area">Service Area</a></li>
+      <li><a href="#contact" class="nav-cta">Book a Walk</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="bg-paws" id="bgPaws"></div>
+
+    <div class="hero-text">
+      <span class="hero-eyebrow">📍 Pasadena, CA</span>
+      <h1>Your dog<br>deserves the<br><span>best walk</span><br>in town.</h1>
+      <p class="hero-sub">PupDash brings professional, loving dog walks right to your door. GPS-tracked, insured, and tail-waggingly fun — every single time.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">Book Your First Walk</a>
+        <a href="#services" class="btn-ghost">See Services</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="dog-card">
+        <span class="leash-hand">🤝</span>
+        <div class="leash"></div>
+        <span class="dog-emoji">🐕</span>
+        <p class="dog-card-label">Happy pup detected!</p>
+        <p class="dog-card-sub">GPS-tracked · Insured · Loved</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-number">500+</span>
+      <span class="stat-label">Happy Pups Walked</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">5★</span>
+      <span class="stat-label">Average Rating</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">3 yrs</span>
+      <span class="stat-label">Serving Pasadena</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number">100%</span>
+      <span class="stat-label">Insured & Bonded</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <span class="section-label">What We Offer</span>
+    <h2>Services built for<br>every kind of pup</h2>
+    <p class="section-intro">Whether your dog needs a quick midday break or a full adventure through the Arroyo, we've got the right walk for them.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🌿</span>
+        <div class="service-name">30-Min Solo Walk</div>
+        <div class="service-price">From $28</div>
+        <p class="service-desc">One-on-one time, full attention, and a nice midday sniff-fest through your neighborhood. Perfect for busy work days.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🏞️</span>
+        <div class="service-name">60-Min Adventure Walk</div>
+        <div class="service-price">From $45</div>
+        <p class="service-desc">A longer, exploratory route through Pasadena's parks, trails, and best sniff spots. Ideal for high-energy dogs.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🐾</span>
+        <div class="service-name">Group Walk</div>
+        <div class="service-price">From $20</div>
+        <p class="service-desc">Join other friendly pups for a sociable stroll. Great for social dogs who love making new friends along the way.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🏡</span>
+        <div class="service-name">Drop-In Visit</div>
+        <div class="service-price">From $18</div>
+        <p class="service-desc">A 20-minute check-in for feeding, potty time, play, and cuddles. We'll send you a photo update from every visit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
+    <span class="section-label">The Process</span>
+    <h2>Up and running<br>in minutes</h2>
+    <p class="section-intro">Getting started with PupDash is quick, easy, and your pup will love you for it.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-circle">📋</div>
+        <div class="step-title">Book Online</div>
+        <p class="step-desc">Choose your service, pick a date and time, and tell us about your pup. Takes under 2 minutes.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">🤝</div>
+        <div class="step-title">Meet & Greet</div>
+        <p class="step-desc">We'll stop by for a free intro visit so your dog can meet their walker before the first walk.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">📍</div>
+        <div class="step-title">Walk Begins</div>
+        <p class="step-desc">GPS tracking starts and you get a real-time map of your pup's route right on your phone.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">📸</div>
+        <div class="step-title">Get a Report</div>
+        <p class="step-desc">Photos, potty updates, and a walk summary land in your inbox as soon as they're home safe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section" id="reviews">
+    <span class="section-label">What People Say</span>
+    <h2>Pasadena pup parents<br>love PupDash</h2>
+    <p class="section-intro">Don't just take our word for it — here's what the humans (and their dogs) have to say.</p>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">Our golden retriever Max absolutely loses his mind with excitement when the PupDash walker arrives. The GPS updates are so reassuring and the photos always make my whole day.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">👩</div>
+          <div>
+            <div class="reviewer-name">Sarah T.</div>
+            <div class="reviewer-dog">Owner of Max 🐕</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">I've tried three other dog walkers in Pasadena and nothing compares. PupDash is reliable, communicative, and genuinely caring. Biscuit came home so happy and tired.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">👨</div>
+          <div>
+            <div class="reviewer-name">Marcus L.</div>
+            <div class="reviewer-dog">Owner of Biscuit 🐩</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">The drop-in visits have been a lifesaver for our senior pup Luna. The walkers are so gentle and patient with her, and the photo updates ease any anxiety I have at work.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">👩</div>
+          <div>
+            <div class="reviewer-name">Priya K.</div>
+            <div class="reviewer-dog">Owner of Luna 🐾</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREA -->
+  <section class="area-section" id="area">
+    <span class="section-label">Where We Walk</span>
+    <h2>Covering all of Pasadena<br>and surrounds</h2>
+    <p class="section-intro">We serve neighborhoods across Pasadena and nearby areas. Not sure if we reach you? Just ask — we're always expanding.</p>
+    <div class="neighborhoods">
+      <span class="neighborhood-tag">Old Pasadena</span>
+      <span class="neighborhood-tag">Hastings Ranch</span>
+      <span class="neighborhood-tag">Bungalow Heaven</span>
+      <span class="neighborhood-tag">Madison Heights</span>
+      <span class="neighborhood-tag">South Lake</span>
+      <span class="neighborhood-tag">Caltech Area</span>
+      <span class="neighborhood-tag">Linda Vista</span>
+      <span class="neighborhood-tag">Arroyo Seco</span>
+      <span class="neighborhood-tag">Monrovia</span>
+      <span class="neighborhood-tag">Arcadia</span>
+      <span class="neighborhood-tag">San Marino</span>
+      <span class="neighborhood-tag">Altadena</span>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section class="cta-section" id="contact">
+    <h2>Ready for the first dash? 🐾</h2>
+    <p>Book today and get 20% off your first walk. No strings attached.</p>
+    <a href="mailto:hello@pupdash.com" class="btn-white">Book a Walk — hello@pupdash.com</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-logo">🐾 PupDash</div>
+      <p class="footer-tagline">Professional dog walking in<br>Pasadena, CA and surrounding areas.<br>Insured, bonded, and tail-approved.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">30-Min Solo Walk</a></li>
+        <li><a href="#services">60-Min Adventure Walk</a></li>
+        <li><a href="#services">Group Walk</a></li>
+        <li><a href="#services">Drop-In Visit</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>Contact Us</h4>
+      <p>📧 hello@pupdash.com</p>
+      <p>📞 (626) 555-0192</p>
+      <p>📍 Pasadena, CA 91101</p>
+      <p style="margin-top:0.8rem; font-size:0.8rem;">Mon–Sat: 7am – 7pm<br>Sun: 8am – 5pm</p>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    © 2026 PupDash. All rights reserved. Made with 🐾 in Pasadena, CA.
+  </div>
+
+  <script>
+    // Floating background paws
+    const container = document.getElementById('bgPaws');
+    const pawEmojis = ['🐾','🐶','🦮','🐕'];
+    for (let i = 0; i < 12; i++) {
+      const el = document.createElement('span');
+      el.className = 'bg-paw';
+      el.textContent = pawEmojis[i % pawEmojis.length];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.animationDuration = (12 + Math.random() * 16) + 's';
+      el.style.animationDelay = (Math.random() * 14) + 's';
+      el.style.fontSize = (1.2 + Math.random() * 2) + 'rem';
+      container.appendChild(el);
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
